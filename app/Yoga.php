@@ -571,7 +571,7 @@ class Yoga {
 
 		public static function asuransiList(){
 			
-			return array(null => '- Pilih Asuransi -') + Asuransi::pluck('nama', 'id')->all();
+			return array(null => '- Pilih Asuransi -') + Asuransi::pluck('nama_asuransi', 'id')->all();
 		}
 
 		public static function stafList(){
