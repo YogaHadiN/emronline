@@ -6,18 +6,33 @@ use Illuminate\Http\Request;
 use App\NurseStation;
 use Input;
 use App\Yoga;
+use App\Daftar;
 use DB;
+use Auth;
 
 class NurseStationController extends Controller
 {
 	public function index(){
-		$nurse_stations = NurseStation::all();
+		$nurse_stations = NurseStation::where('user_id', Auth::id())->get();
 		return view('nurse_stations.index', compact(
 			'nurse_stations'
 		));
 	}
-	public function create(){
-		return view('nurse_stations.create');
+	public function create($id){
+
+
+		$daftar = Daftar::find( $id );
+		$asuransi_list = [
+			null => '- Pilih Pembayaran -',
+			1 => 'Biaya Pribadi'
+		];
+		if ($daftar->pasien->asuransi_id > 1) {
+			$asuransi_list[$daftar->pasien->asuransi_id] = $daftar->pasien->asuransi->nama_asuransi;
+		}
+		return view('nurse_stations.create', compact(
+			'daftar',
+			'asuransi_list'
+		));
 	}
 	public function edit($id){
 		$nurse_station = NurseStation::find($id);
@@ -27,26 +42,54 @@ class NurseStationController extends Controller
 		if ($this->valid( Input::all() )) {
 			return $this->valid( Input::all() );
 		}
-		$nurse_station       = new NurseStation;
-		// Edit disini untuk simpan data
-		$nurse_station->save();
-		$pesan = Yoga::suksesFlash('NurseStation baru berhasil dibuat');
-		return redirect('nurse_stations')->withPesan($pesan);
+		$daftar = Daftar::find( Input::get('id') );
+		$nurse_station                   = new NurseStation;
+		$nurse_station->asuransi_id      = $daftar->asuransi_id;
+		$nurse_station->poli_id          = $daftar->poli_id;
+		$nurse_station->pasien_id        = $daftar->pasien_id;
+		$nurse_station->staf_id          = $daftar->staf_id;
+		$nurse_station->waktu            = $daftar->waktu;
+		$nurse_station->hamil            = Input::get('hamil');
+		$nurse_station->tinggi_badan     = Input::get('tinggi_badan');
+		$nurse_station->berat_badan      = Input::get('berat_badan');
+		$nurse_station->suhu             = Input::get('suhu');
+		$nurse_station->asisten_id       = Input::get('asisten_id');
+		$nurse_station->kecelakaan_kerja = Input::get('kecelakaan_kerja');
+		$nurse_station->sistolik         = Input::get('sistolik');
+		$nurse_station->diastolik        = Input::get('diastolik');
+		$nurse_station->user_id          = Auth::id();
+		if($nurse_station->save()){
+			$daftar->delete();
+		}
+		$pesan = Yoga::suksesFlash('pasien <strong>' . $daftar->pasien->nama . '</strong> berhasil masuk antrian poli <strong>' . $daftar->poli->poli) . '</strong>';
+		return redirect('home/daftars')->withPesan($pesan);
 	}
 	public function update($id, Request $request){
 		if ($this->valid( Input::all() )) {
 			return $this->valid( Input::all() );
 		}
-		$nurse_station     = NurseStation::find($id);
-		// Edit disini untuk simpan data
+		$nurse_station                   = NurseStation::find($id);
+		$nurse_station->hamil            = Input::get('hamil');
+		$nurse_station->tinggi_badan     = Input::get('tinggi_badan');
+		$nurse_station->berat_badan      = Input::get('berat_badan');
+		$nurse_station->suhu             = Input::get('suhu');
+		$nurse_station->asisten_id       = Input::get('asisten_id');
+		$nurse_station->kecelakaan_kerja = Input::get('kecelakaan_kerja');
+		$nurse_station->sistolik         = Input::get('sistolik');
+		$nurse_station->diastolik        = Input::get('diastolik');
 		$nurse_station->save();
+		$poli_id = $nurse_station->poli_id;
 		$pesan = Yoga::suksesFlash('NurseStation berhasil diupdate');
-		return redirect('nurse_stations')->withPesan($pesan);
+		return redirect('home/polis/' . $poli_id)->withPesan($pesan);
 	}
 	public function destroy($id){
-		NurseStation::destroy($id);
-		$pesan = Yoga::suksesFlash('NurseStation berhasil dihapus');
-		return redirect('nurse_stations')->withPesan($pesan);
+		$antrian = NurseStation::find($id);
+		$nama_pasien = $antrian->pasien->nama;
+		$poli_id = $antrian->poli_id;
+		$poli = $antrian->poli->poli;
+		$antrian->delete();
+		$pesan = Yoga::suksesFlash($nama_pasien . ' BERHASIL dihapus dari antrian ' . $poli);
+		return redirect('home/polis/' . $poli_id)->withPesan($pesan);
 	}
 	public function import(){
 		return 'Not Yet Handled';
@@ -76,7 +119,6 @@ class NurseStationController extends Controller
 			'required' => ':attribute Harus Diisi',
 		];
 		$rules = [
-			/* 'data'           => 'required', */
 		];
 		$validator = \Validator::make($data, $rules, $messages);
 		

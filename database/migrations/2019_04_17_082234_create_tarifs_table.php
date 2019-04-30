@@ -20,6 +20,7 @@ class CreateTarifsTable extends Migration
 			$table->string('asuransi_id');
 			$table->string('jasa_dokter');
 			$table->string('tipe_tindakan_id');
+			$table->string('user_id');
 			$table->longtext('bhp_items')->default('[]');
             $table->timestamps();
         });

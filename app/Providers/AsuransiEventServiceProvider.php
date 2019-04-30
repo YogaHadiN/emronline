@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Auth;
 use Session;
 use App\Yoga;
+use App\Tarif;
 
 class AsuransiEventServiceProvider extends ServiceProvider
 {
@@ -42,6 +43,16 @@ class AsuransiEventServiceProvider extends ServiceProvider
 				$pesan = "Maaf!! Anda tidak bisa mengedit Asuransi milik User lain!!";
 				Session::flash('pesan', Yoga::gagalFlash($pesan));
 				return false;
+			}
+		});
+		\App\Asuransi::created(function ( $asuransi ){
+			$tarifs = Tarif::where('asuransi_id', 1)->get();
+			$data = [];
+
+			foreach ($tarifs as $tarif) {
+				$data[] = [
+
+				];
 			}
 		});
     }

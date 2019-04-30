@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Poli;
+use App\NurseStation;
 use Input;
 use App\Yoga;
 use DB;
+use Auth;
 
 class PoliController extends Controller
 {
@@ -43,6 +45,18 @@ class PoliController extends Controller
 		$pesan = Yoga::suksesFlash('Poli berhasil diupdate');
 		return redirect('home/polis')->withPesan($pesan);
 	}
+	public function show($id){
+		$antrians = NurseStation::where('poli_id', $id)
+								->where('user_id', Auth::id())
+								->orderBy('waktu', 'desc')
+								->get();
+		$poli = Poli::find( $id );
+		return view('polis.show', compact(
+			'antrians',
+			'poli'
+		));
+	}
+	
 	public function destroy($id){
 		Poli::destroy($id);
 		$pesan = Yoga::suksesFlash('Poli berhasil dihapus');

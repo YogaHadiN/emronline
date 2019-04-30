@@ -17,7 +17,9 @@ class CoaTableSeeder extends Seeder
 					'id'              => $coa->id,
 					'kelompok_coa_id' => $coa->kelompok_coa_id,
 					'saldo_awal'      => $coa->saldo_awal,
-					'coa'             => $coa->coa
+					'coa'             => $coa->coa,
+					'created_at'   => date('Y-m-d H:i:s'),
+					'updated_at'   => date('Y-m-d H:i:s')
 			 ]);
 		}
     }

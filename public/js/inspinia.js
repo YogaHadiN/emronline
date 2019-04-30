@@ -1,6 +1,6 @@
 // Custom script
 $(document).ready(function () {
-
+	// ganti_gambar_jika_rusak();
 	$('.carousel').carousel({
 		interval: false
 	});
@@ -18,8 +18,6 @@ $(document).ready(function () {
    })   
     // MetsiMenu
     $('#side-menu').metisMenu();
-
-    imgError();
 
     $('.modal').on('hidden.bs.modal', function(){
         $('.btn').removeAttr('disabled');
@@ -324,12 +322,6 @@ function rataAtas5000(biaya){
 
 }
 
-function imgError() {
-    $("img").error(function () {
-      $(this).unbind("error").attr("src", "/img/notfound.jpg");
-    });
-}
-
 function cleanUang(uang){
 
     uang = uang.replace(/\./g,'');
@@ -523,4 +515,15 @@ function daysInMonth(month, year) {
 	d = new Date(int_d - 1);
 	return d;
 	//return d.getDate() + '-' + d.getMonth() + '-' + d.getYear();
+}
+function ganti_gambar_jika_rusak(){
+	$(window).bind('load', function() {
+		$('img').each(function() {
+			if((typeof this.naturalWidth != "undefined" &&
+				this.naturalWidth == 0 ) 
+				|| this.readyState == 'uninitialized' ) {
+				$(this).attr('src', url + '/img/photo_not_available.png');
+			}
+		}); 
+	}); 
 }

@@ -16,31 +16,21 @@ class CreateNurseStationsTable extends Migration
         Schema::create('nurse_stations', function (Blueprint $table) {
             $table->bigIncrements('id');
 			$table->string('asuransi_id');
-			$table->string('poli');
+			$table->string('poli_id');
 			$table->string('pasien_id');
 			$table->string('staf_id');
-			$table->string('tanggal');
-			$table->string('jam');
-			$table->string('hamil');
-			$table->string('menyusui');
-			$table->string('riwayat_alergi_obat');
-			$table->string('tinggi_badan');
-			$table->string('berat_badan');
-			$table->string('suhu');
-			$table->string('antrian');
-			$table->string('perujuk_id');
-			$table->string('asisten_id');
-			$table->string('periksa_awal');
-			$table->string('g');
-			$table->string('p');
-			$table->string('a');
-			$table->string('hpht');
-			$table->string('kecelakaan_kerja');
-			$table->string('keterangan');
-			$table->string('bukan_peserta');
-			$table->string('sistolik');
-			$table->string('diastolik');
-
+			$table->dateTime('waktu');
+			$table->tinyInteger('hamil')->nullable();
+			$table->integer('tinggi_badan')->nullable();
+			$table->integer('berat_badan')->nullable();
+			$table->integer('suhu')->nullable();
+			$table->string('asisten_id')->nullable();
+			$table->tinyInteger('kecelakaan_kerja')->default(0);
+			$table->string('sistolik')->nullable();
+			$table->string('diastolik')->nullable();
+			$table->string('random_string')->nullable();
+			$table->string('periksa_id')->nullable();
+			$table->string('user_id');
             $table->timestamps();
         });
     }

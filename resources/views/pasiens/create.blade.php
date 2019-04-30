@@ -40,17 +40,16 @@ Online Electronic Medical Record | Buat Pasien Baru
 				</div>
 			</div>
 		</div>
+		<div id="image_container" class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+		</div>
 	</div>
+	@include('pasiens.image_template')
 	@include('images.barcode')
 @stop
 @section('footer') 
-<script type="text/javascript" charset="utf-8">
-	function dummySubmit(control){
-		if(validatePass2(control)){
-			$('#submit').click();
-		}
-	}
-</script> 
-	
+	<script type="text/javascript" charset="utf-8">
+		var random_string = "{{ $random_string }}";
+	</script>
+{!! HTML::script('js/pasien_edit.js')!!}
 @stop
 

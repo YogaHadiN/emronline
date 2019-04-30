@@ -6,7 +6,7 @@
 	</div>
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<a href="{{ url('home/qrcode') }}/?text={{ $url }}/{{ $random_string }}">
+				<a href="{{ $url }}/{{ $random_string }}">
 					<img src="{{ url('home/qrcode') }}/?text={{ $url }}/{{ $random_string }}"  alt="">
 				</a>
 		</div>

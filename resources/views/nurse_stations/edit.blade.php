@@ -1,17 +1,17 @@
 @extends('layout.master')
 
 @section('title') 
-PPDS DV | 
+Online Electronic Medical Record | Edit Pendaftaran
 
 @stop
-@section('breadcrumb') 
+@section('page-title') 
 <h2></h2>
 <ol class="breadcrumb">
 	  <li>
 		  <a href="{{ url('home')}}">home</a>
 	  </li>
 		<li>
-		  <a href="{{ url('home/asuransis')}}">Asuransi</a>
+		  <a href="{{ url('home/daftars')}}">Nurse Station</a>
 	  </li>
 	  <li class="active">
 		  <strong>Edit</strong>
@@ -19,20 +19,10 @@ PPDS DV |
 </ol>
 @stop
 @section('content') 
-	<div class="row">
-		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-			<div class="panel panel-info">
-				<div class="panel-heading">
-					<h3 class="panel-title">Edit Asuransi</h3>
-				</div>
-				<div class="panel-body">
-					{!! Form::model($asuransi,['url' => 'home/asuransis/' .  $asuransi->id, 'method' => 'put']) !!}
-						@include('asuransis.form', ['update' => true])
-					{!! Form::close() !!}
-				</div>
-			</div>
-		</div>
-	</div>
+	<h1>{{ $nurse_station->pasien->nama }}</h1>
+	{!! Form::model($nurse_station,['url' => 'home/nurse_stations/' .  $nurse_station->id, 'method' => 'put']) !!}
+		@include('nurse_stations.form')
+	{!! Form::close() !!}
 @stop
 @section('footer') 
 	<script type="text/javascript" charset="utf-8">

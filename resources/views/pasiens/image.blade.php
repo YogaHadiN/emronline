@@ -7,39 +7,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
-{{ env("NAMA_KLINIK") }} | Gambar Periksais
+{{ env("APP_NAME") }} | Gambar Pasien
 </title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-	<link href="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css') !!}" rel="stylesheet">
+    {!! HTML::style('css/all.css')!!}
+
 </head>
 
 <body class="gray-bg">
 
-<h2>Gambar Periksa</h2>
+<h2>Gambar Pasien</h2>
 	{!! Form::open([
-		'url'		=> 'pasiens/home/images/' . $random_string, 
+		'url'		=> 'home/pasiens/image', 
 		'method'	=> 'post', 
 		'files'		=> 'true'
 	]) !!}
-		@include('images.form')
+	<div class="form-group{{ $errors->has('gambar') ? ' has-error' : '' }}">
+		{!! Form::label('gambar', 'Gambar') !!}
+		{!! Form::file('gambar') !!}
+			<p> {!! Html::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
+		{!! $errors->first('gambar', '<p class="help-block">:message</p>') !!}
+	</div>
+	<div class="form-group{{ $errors->has('ktp') ? ' has-error' : '' }}">
+		{!! Form::label('ktp', 'KTP') !!}
+		{!! Form::file('ktp') !!}
+			<p> {!! Html::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
+		{!! $errors->first('ktp', '<p class="help-block">:message</p>') !!}
+	</div>
+	<div class="form-group{{ $errors->has('bpjs') ? ' has-error' : '' }}">
+		{!! Form::label('bpjs', 'BPJS') !!}
+		{!! Form::file('bpjs') !!}
+			<p> {!! Html::image(asset('img/photo_not_available.png'), null, ['class'=>'img-rounded upload']) !!} </p>
+		{!! $errors->first('bpjs', '<p class="help-block">:message</p>') !!}
+	</div>
+	{!! Form::text('random_string', $random_string, ['class' => 'form-control hide']) !!}
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			@if(isset($pasien))
+				<button class="btn btn-success btn-block" type="button" onclick='dummySubmit(this);return false;'>Update</button>
+			@else
+				<button class="btn btn-success btn-block" type="button" onclick='dummySubmit(this);return false;'>Submit</button>
+			@endif
+			{!! Form::submit('Submit', ['class' => 'btn btn-success hide', 'id' => 'submit']) !!}
+		</div>
+	</div>
 	{!! Form::close() !!}
-	{{-- @include('gambar_periksa') --}}
-
     <!-- Mainly scripts -->
-
-	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 	{!! HTML::script('js/all.js')!!} 
+	<script type="text/javascript" charset="utf-8">
+		function dummySubmit(control){
+			if(validatePass2(control)){
+				$('#submit').click();
+			}
+		}
+	</script>
 
 <script type="text/javascript" charset="utf-8">
 	tambahGambar();
 	function dummySubmit(){
 		 $('#submit').click();
 	}
-	alert('mulai');
-	$('img').on("error", function() {
-		alert('error');
-	  $(this).attr('src', '/img/photo_not_available.png');
-	});
 </script>
 	{!! HTML::script('js/gambar_periksa.js')!!} 
 	{!! HTML::script('js/inputGambar.js')!!} 

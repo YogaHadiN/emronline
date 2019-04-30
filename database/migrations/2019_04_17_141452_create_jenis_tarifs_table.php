@@ -17,6 +17,7 @@ class CreateJenisTarifsTable extends Migration
             $table->bigIncrements('id');
 			$table->string('jenis_tarif');
 			$table->string('coa_id');
+			$table->string('user_id');
             $table->timestamps();
         });
     }

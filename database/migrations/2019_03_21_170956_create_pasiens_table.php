@@ -35,7 +35,7 @@ class CreatePasiensTable extends Migration
 			$table->string('bpjs_image')->nullable();
 			$table->string('nomor_asuransi_bpjs')->nullable();
 			$table->string('nomor_ktp')->nullable();
-			$table->string('jangan_disms')->default('1');
+			$table->tinyInteger('jangan_disms')->default(1);
 			$table->string('user_id');
             $table->timestamps();
         });

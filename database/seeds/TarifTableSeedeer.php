@@ -25,10 +25,13 @@ class TarifTableSeedeer extends Seeder
 			 DB::connection('mysql')->table('tarifs')->insert([
 					'jenis_tarif_id'   => $tarif->jenis_tarif_id,
 					'biaya'            => $tarif->biaya,
-					'asuransi_id'      => $tarif->asuransi_id,
+					'asuransi_id'      => '1',
+					'user_id'          => '1',
 					'jasa_dokter'      => $tarif->jasa_dokter,
 					'tipe_tindakan_id' => $tarif->tipe_tindakan_id,
-					'bhp_items'        => $tarif->bhp_items
+					'bhp_items'        => $tarif->bhp_items,
+					'created_at'   => date('Y-m-d H:i:s'),
+					'updated_at'   => date('Y-m-d H:i:s')
 			 ]);
 		}
     }

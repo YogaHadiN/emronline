@@ -25,4 +25,16 @@ class Pasien extends Model
 			'Belum' => 'Belum Menikah'
 		);
 	}
+	public function asuransi(){
+		return $this->belongsTo('App\Asuransi');
+	}
+	public function getJeniskelaminAttribute(){
+		$sex = $this->sex;
+		if ($sex) {
+			return 'Laki-laki';
+		}
+		return 'Wanita';
+
+	}
+	
 }

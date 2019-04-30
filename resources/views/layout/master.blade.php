@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
 	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
     {{-- <link href="{!! asset('css/bootstrap-select.min.css') !!}" rel="stylesheet"> --}}
     <link href="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/css/dataTables.bootstrap.min.css') !!}" rel="stylesheet">
     {{-- <link href="{!! asset('css/plugins/dataTables/dataTables.bootstrap.css') !!}" rel="stylesheet"> --}}
@@ -113,7 +113,15 @@
                         </ul>
                     </li>
 					<li>
-                        <a href="{{ url('home/nurse_stations') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Nurse Station</span></a>
+                        <a href="{{ url('home/daftars') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Nurse Station</span></a>
+                    </li>
+					<li>
+                        <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Poli</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+							@foreach(App\Poli::where('user_id', \Auth::id())->get() as $poli)	
+								<li>{!! HTML::link('home/polis/' . $poli->id, $poli->poli)!!}</li>
+							@endforeach
+                        </ul>
                     </li>
 					<li>
                         <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Obat</span><span class="fa arrow"></span></a>
@@ -128,6 +136,13 @@
                         <ul class="nav nav-second-level">
                             <li>{!! HTML::link('home/coas', 'Coa')!!}</li>
                             <li>{!! HTML::link('home/kelompok_coas', 'Kelompok Coa')!!}</li>
+                        </ul>
+                    </li>
+					<li>
+                        <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Diagnosa</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>{!! HTML::link('home/icds', 'ICD')!!}</li>
+                            <li>{!! HTML::link('home/diagnosas', 'Diagnosa')!!}</li>
                         </ul>
                     </li>
                 </ul>
@@ -192,6 +207,10 @@
             </div>
         </div>
         </div>
+		<script type="text/javascript" charset="utf-8">
+			var url = "{{ url('/') }}";
+			console.log('dfdjfkjsjf');
+		</script>
             {{--{!! HTML::script("js/all.js")!!}--}}
     {{-- <script src="{!! asset('js/all.js') !!}"></script> --}}
     <script src="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js') !!}"></script>
@@ -211,7 +230,8 @@
     {{-- <script src="{!! url('js/plugins/jeditable/jquery.jeditable.js') !!}"></script> --}}
     {{-- <script src="{!! url('https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap-select/0.14.0/js/bootstrap-select.min.js') !!}"></script> --}}
 	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+	{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script> --}}
     {{-- <script src="{!! url('js/bootstrap-select.min.js') !!}"></script> --}}
     <script src="{!! url('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js') !!}" type="text/javascript"></script>
     {{-- <script src="{!! url('js/plugins/datepicker/bootstrap-datepicker.js') !!}" type="text/javascript"></script> --}}
@@ -249,9 +269,6 @@
 		@endif
 
         $(document).ready(function() {
-			$('img').on("error", function() {
-			  $(this).attr('src', '/img/photo_not_available.png');
-			});
 
             formatUang();
             
@@ -345,11 +362,6 @@
 	function logoutClick(){
 		$('form#logout-form').submit();
 	}
-	{{-- function imgError(image) { --}}
-	{{-- 	image.onerror = ""; --}}
-	{{-- 	image.src = "{{ url('/img/photo_not_available.png') }}"; --}}
-	{{-- 	return true; --}}
-	{{-- } --}}
     </script>
         @yield('footer')
 </body>

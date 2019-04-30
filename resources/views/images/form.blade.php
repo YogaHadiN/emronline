@@ -27,7 +27,7 @@
 							</div>
 							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-									<img src="{{ url('img/estetika/this') }}" class="img-rounded upload" onError="imgError(this);return false;" alt="Responsive Image">
+									<img src="{{ url('img/estetika/this') }}" class="img-rounded upload">
 								</div>
 							</div>
 							<div class="row">

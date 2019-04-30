@@ -16,6 +16,7 @@ class CreateKelompokCoasTable extends Migration
         Schema::create('kelompok_coas', function (Blueprint $table) {
             $table->bigIncrements('id');
 			$table->string('kelompok_coa');
+			$table->string('user_id');
             $table->timestamps();
         });
     }

@@ -23,7 +23,7 @@
 		<div class="form-group @if($errors->has('no_telp'))has-error @endif">
 		  {!! Form::label('no_telp', 'Nomor Telepon', ['class' => 'control-label']) !!}
 			{!! Form::text('no_telp', null, array(
-				'class'         => 'form-control rq'
+				'class'         => 'form-control'
 			))!!}
 		  @if($errors->has('no_telp'))<code>{{ $errors->first('no_telp') }}</code>@endif
 		</div>
@@ -91,7 +91,7 @@
 	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 		<div class="form-group @if($errors->has('tanggal_lahir'))has-error @endif">
 		  {!! Form::label('tanggal_lahir', 'Tanggal Lahir', ['class' => 'control-label']) !!}
-		  @if(isset($edit))
+		  @if(isset($pasien))
 			  {!! Form::text('tanggal_lahir', App\Yoga::updateDatePrep($pasien->tanggal_lahir), array( 'class'         => 'form-control tanggal'))!!}
 			@else
 			{!! Form::text('tanggal_lahir', null, array( 'class'         => 'form-control tanggal'))!!}
@@ -130,61 +130,33 @@
 		  @if($errors->has('email'))<code>{{ $errors->first('email') }}</code>@endif
 		</div>
 	</div>
-	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-		<div class="form-group @if($errors->has('bpjs_image'))has-error @endif">
-		  {!! Form::label('bpjs_image', 'Kartu BPJS', ['class' => 'control-label']) !!}
-			{!! Form::text('bpjs_image', null, array(
-				'class'         => 'form-control'
-			))!!}
-		  @if($errors->has('bpjs_image'))<code>{{ $errors->first('bpjs_image') }}</code>@endif
-		</div>
-	</div>
 </div>
-<div class="row">
-	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-		<div class="form-group @if($errors->has('ktp_image'))has-error @endif">
-		  {!! Form::label('ktp_image', 'Gambar KTP', ['class' => 'control-label']) !!}
-			{!! Form::text('ktp_image', null, array(
-				'class'         => 'form-control'
-			))!!}
-		  @if($errors->has('ktp_image'))<code>{{ $errors->first('ktp_image') }}</code>@endif
-		</div>
-	</div>
-	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-		<div class="form-group @if($errors->has('image'))has-error @endif">
-		  {!! Form::label('image', 'Foto Pasien', ['class' => 'control-label']) !!}
-			{!! Form::text('image', null, array(
-				'class'         => 'form-control'
-			))!!}
-		  @if($errors->has('image'))<code>{{ $errors->first('image') }}</code>@endif
-		</div>
-	</div>
-</div>
-
 {!! Form::text('random_string', $random_string, array(
 	'class'         => 'form-control'
 ))!!}
 <div class="row">
 	@if(isset($pasien))
-	{!! Form::open(['url' => 'home/pasien/' . $pasien->id, 'method' => 'delete']) !!}
 		<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 			<button class="btn btn-success btn-block" type="button" onclick='dummySubmit(this);return false;'>Submit</button>
-			{!! Form::submit('Submit', ['class' => 'btn btn-success hide', 'id' => 'submit']) !!}
+			{!! Form::submit('Update', ['class' => 'submit btn btn-success hide']) !!}
 		</div>
 		<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 			<a class="btn btn-danger btn-block" href="{{ url('home') }}">Cancel</a>
 		</div>
+	{!! Form::close() !!}
+	{!! Form::open(['url' => 'home/pasiens/' . $pasien->id, 'method' => 'delete']) !!}
 		<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 			<button class="btn btn-warning btn-block" onclick="return confirm('Anda yakin ingin menghapus {{ $pasien->id }} - {{  $pasien->nama  }} ?')" type="submit">Delete</button>
 		</div>
-	{!! Form::close() !!}
 	@else
 		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 			<button class="btn btn-success btn-block" type="button" onclick='dummySubmit(this);return false;'>Update</button>
-			{!! Form::submit('Submit', ['class' => 'btn btn-success hide', 'id' => 'submit']) !!}
+			{!! Form::submit('Submit', ['class' => 'submit btn btn-success hide', 'id' => 'submit']) !!}
 		</div>
 		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 			<a class="btn btn-danger btn-block" href="{{ url('home') }}">Cancel</a>
 		</div>
 	@endif
+	{!! Form::close() !!}
 </div>
+@include('images.barcode')

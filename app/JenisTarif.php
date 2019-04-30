@@ -6,5 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class JenisTarif extends Model
 {
-    //
+	public function coa(){
+		return $this->belongsTo('App\Coa');
+	}
 }

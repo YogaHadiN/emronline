@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Obat;
 
 class ObatTableSeeder extends Seeder
 {
@@ -62,7 +63,7 @@ class ObatTableSeeder extends Seeder
 				return $a['generik_id'] <=> $b['generik_id'];
 			});
 
-			 DB::connection('mysql')->table('obats')->insert([
+			DB::connection('mysql')->table('obats')->insert([
 					'merek'           => $obat->merek,
 					'formula'         => json_encode($array_komposisi),
 					'kode_rak'        => $obat->kode_rak,
@@ -77,7 +78,28 @@ class ObatTableSeeder extends Seeder
 					'aturan_minum_id' => $obat->aturan_minum_id,
 					'peringatan'      => $obat->peringatan,
 					'tidak_dipuyer'   => $obat->tidak_dipuyer,
+					'created_at'   => date('Y-m-d H:i:s'),
+					'updated_at'   => date('Y-m-d H:i:s')
+					
 			 ]);
 		}
+
+		$obats = Obat::all();
+		$timestamp = date('Y-m-d H:i:s');
+		$data_komposisis = [];
+		foreach ($obats as $o) {
+			$jsonKomposisi = $o->formula;
+			$komposisis    = json_decode($jsonKomposisi);
+			foreach ($komposisis as $komposisi) {
+				$data_komposisis[] = [
+					'generik_id' => $komposisi->generik_id,
+					'bobot'      => $komposisi->bobot,
+					'obat_id'    => $o->id,
+					'created_at' => $timestamp,
+					'updated_at' => $timestamp
+				];
+			}
+		}
+		App\Komposisi::insert($data_komposisis);
     }
 }

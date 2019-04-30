@@ -17,6 +17,8 @@ class KelompokCoaTableSeeder extends Seeder
 			 DB::connection('mysql')->table('kelompok_coas')->insert([
 					'id'           => $kelompok_coa->id,
 					'kelompok_coa' => $kelompok_coa->kelompok_coa,
+					'created_at'   => date('Y-m-d H:i:s'),
+					'updated_at'   => date('Y-m-d H:i:s')
 			 ]);
 		}
     }

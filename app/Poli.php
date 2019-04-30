@@ -11,4 +11,8 @@ class Poli extends Model
 		return array(null => '- Pilih Asuransi -') + Asuransi::lists('nama', 'id')->all();
 
 	}
+	public static function selectList(){
+		return array(null => '- Pilih Poli -') + Poli::pluck('poli', 'id')->all();
+	}
+	
 }

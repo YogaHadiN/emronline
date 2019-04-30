@@ -26,6 +26,10 @@ class DatabaseSeeder extends Seeder
 		$this->call(TarifTableSeedeer::class);
 		$this->call(UserTableSeeder::class);
 		$this->call(PoliTableSeeder::class);
+		$this->call(IcdTableSeeder::class);
+		$this->call(DiagnosaTableSeeder::class);
+		$this->call(SignaTableSeeder::class);
+		/* $this->call(PeriksaTableSeeder::class); */
     }
 }
 

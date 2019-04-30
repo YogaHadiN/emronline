@@ -16,7 +16,10 @@ class JenisTarifTableSeeder extends Seeder
 		foreach ($jenis_tarifs as $jenis_tarif) {
 			 DB::connection('mysql')->table('jenis_tarifs')->insert([
 					'jenis_tarif' => $jenis_tarif->jenis_tarif,
-					'coa_id'      => $jenis_tarif->coa_id
+					'coa_id'      => $jenis_tarif->coa_id,
+					'user_id'      => '1',
+					'created_at'   => date('Y-m-d H:i:s'),
+					'updated_at'   => date('Y-m-d H:i:s')
 			 ]);
 		}
     }

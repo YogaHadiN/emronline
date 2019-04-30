@@ -18,6 +18,7 @@ class CreateCoasTable extends Migration
 			$table->string('kelompok_coa_id');
 			$table->integer('saldo_awal');
 			$table->string('coa');
+			$table->string('user_id');
             $table->timestamps();
         });
     }

@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class KelompokCoa extends Model
 {
-    //
+	public $incrementing = false;
 }

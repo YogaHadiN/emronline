@@ -20,10 +20,7 @@ Online Electronic Medical Record | User
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title">
-				<div class="panelLeft">User</div>
-				<div class="panelRight">
-					<a class="btn btn-primary" href="{{ url('home/users/create') }}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Buat Asuransi Baru</a>
-				</div>
+				User
 			</h3>
 		</div>
 		<div class="panel-body">

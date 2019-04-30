@@ -147,7 +147,7 @@
 
                     temp += "<td nowrap class='displayNone'><div>" + result[0].asuransi_id + "</div></td>";
                     temp += "<td nowrap class='displayNone'><div>" + result[0].image + "</div></td>";
-                    temp += "<td nowrap nowrap><div class='invisible'><a href=\"#\" style=\"color: green; font-size: large;\" onclick=\"rowEntry(this);return false;\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Klik untuk periksa pasien\"><span class=\"glyphicon glyphicon-log-in\" aria-hidden=\"true\"></span></a>";
+                    temp += "<td nowrap nowrap><div class='invisible'><a href=\"" +url+"/home/pasiens/" + result[0].id +"/daftar\" style=\"color: green; font-size: large;\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Klik untuk periksa pasien\"><span class=\"glyphicon glyphicon-log-in\" aria-hidden=\"true\"></span></a>";
                     temp += "&nbsp;&nbsp;&nbsp;<a href=\"pasiens/" + result[0].id + "/edit\" style=\"color: ##337AB7; font-size: large;\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Klik untuk ubah data pasien\"><span aria-hidden=\"true\" class=\"glyphicon glyphicon-edit\"></span></a>";
                     temp += "&nbsp;&nbsp;&nbsp;<a onclick='confirmStafModal();' data-value=\"pasiens/" + result[0].id + "\" style=\"color: orange; font-size: large;\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Klik untuk melihat riwayat pasien\"><span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span></a></td>";
                    temp += "</tr>";
@@ -341,7 +341,7 @@
 
     function selectPasien(key = 0){
 
-            var url = $('form#ajaxkeyup').attr('action');
+            var urlajax = $('form#ajaxkeyup').attr('action');
             var data = $('form#ajaxkeyup').serializeArray();
 			data[data.length] = {
 				'name' : 'key',
@@ -355,7 +355,7 @@
             var DDnamaIbu       = $('#nama_ibu').closest('th').hasClass('displayNone');
             var DDnamaAyah      = $('#nama_ayah_Input').closest('th').hasClass('displayNone');
 
-            $.get(url, data, function(hasil) {
+            $.get(urlajax, data, function(hasil) {
                 var MyArray = hasil.data;
                 var pages = hasil.pages;
                 var rows = hasil.rows;
@@ -399,21 +399,21 @@
 
                     temp += "<td nowrap class='displayNone'><div>" + MyArray[i].asuransi_id + "</div></td>";
                     temp += "<td nowrap class='displayNone'><div>" + MyArray[i].image + "</div></td>";
-                    temp += "<td nowrap nowrap><div><a href=\"#\" style=\"color: green; font-size: large;\" onclick=\"rowEntry(this);return false;\"><span class=\"glyphicon glyphicon-log-in\" aria-hidden=\"true\"></span></a>";
+                    temp += "<td nowrap nowrap><div><a href=\"" +url+"/home/pasiens/" + MyArray[i].ID_PASIEN +"/daftar\" style=\"color: green; font-size: large;\"><span class=\"glyphicon glyphicon-log-in\" aria-hidden=\"true\"></span></a>";
                     temp += "&nbsp;&nbsp;&nbsp;<a href=\"" + base + "/home/pasiens/" + MyArray[i].ID_PASIEN + "/edit\" style=\"color: ##337AB7; font-size: large;\"><span aria-hidden=\"true\" class=\"glyphicon glyphicon-edit\"></span></a>";
                     temp += "&nbsp;&nbsp;&nbsp;<a data-value='" + MyArray[i].ID_PASIEN + "' onclick='confirmStafModal(this);' href='#' style=\"color: orange; font-size: large;\" ><span class=\"glyphicon glyphicon-info-sign\" aria-hidden=\"true\"></span></a> </td>";
          
                     temp += "</tr>";
                  }
                  $('#ajax').html(temp);
-				// $('#paging').twbsPagination({
-				// 	startPage: parseInt(key) +1,
-				// 	totalPages: pages,
-				// 	visiblePages: 7,
-				// 	onPageClick: function (event, page) {
-				// 		selectPasien(parseInt( page ) -1);
-				// 	}
-				// });
+				$('#paging').twbsPagination({
+					startPage: parseInt(key) +1,
+					totalPages: pages,
+					visiblePages: 7,
+					onPageClick: function (event, page) {
+						selectPasien(parseInt( page ) -1);
+					}
+				});
 				$('#rows').html(numeral( rows ).format('0,0'));
 				$('.ajax-error-pasien').fadeOut(500);
 			}).fail(function(){
@@ -426,41 +426,6 @@
 				$('#processing-warning').html('<i class="fa fa-check" aria-hidden="true"></i> Sukses').removeAttr('class').addClass('btn btn-info');
 			});
     }
-        function rowEntry(control) {
-
-            $('#cekBPJSkontrol').hide();
-            $('#cekGDSBPJS').hide();
-
-			var nama = $(control).closest('tr').find('td:nth-child(2) div').html();
-			var image = $(control).closest('tr').find('td:nth-child(12) div').html();
-			var nama_asuransi = $(control).closest('tr').find('td:nth-child(6) div').html();
-			var option_asuransi = '<option value="">- Pilih Pembayaran -</option>';
-			option_asuransi += '<option value="0">Biaya Pribadi</option>';
-
-			var ID = $(control).closest('tr').find('td:first-child div').html();
-			var asuransi_id = $(control).closest('tr').find('td:nth-child(11) div').html();
-
-			cekBPJSkontrol(ID, asuransi_id);
-
-            imgError();
-
-            if (asuransi_id != '0') {
-                option_asuransi += '<option value="' + asuransi_id + '">' + nama_asuransi + '</option>'
-            };
-
-            $('#lblInputNamaPasien').html(ID + ' - ' + nama)
-                .closest('.form-group')
-                .removeClass('has-error')
-                .find('code')
-                .remove();
-            $('#namaPasien').val(nama);
-            $('#imageForm').attr('src', image);
-            $('#ID_PASIEN').val(ID);
-            $("#ddlPembayaran").html(option_asuransi);
-            resetComplain();
-            $('#exampleModal').modal('show');
-            return false;
-        }
         function resetComplain(){
             $('#timbul').hide();
             $('#modal-footer').show();

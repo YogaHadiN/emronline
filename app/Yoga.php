@@ -2599,5 +2599,11 @@ class Yoga {
 		}
 		return $hp;
 	}
-	
+	public static function yesNoList($text){
+		return [
+			null => '- Pilih '.$text.' -',
+			0    => 'Tidak ' . $text,
+			1    => $text
+		];
+	}
 }

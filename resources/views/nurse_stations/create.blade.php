@@ -1,35 +1,29 @@
 @extends('layout.master')
 
 @section('title') 
-PPDS DV | 
+
+Online Electronic Medical Record | Pemeriksaan Nurse Station
 
 @stop
-@section('breadcrumb') 
-<h2></h2>
+@section('page-title') 
+<h2>Pemeriksaan Nurse Station</h2>
 <ol class="breadcrumb">
 	  <li>
 		  <a href="{{ url('home')}}">home</a>
 	  </li>
+	<li>
+		  <a href="{{ url('home/daftars')}}">Nurse Station</a>
+	  </li>
 	  <li class="active">
-		  <strong></strong>
+		  <strong>Pemeriksaan</strong>
 	  </li>
 </ol>
 @stop
 @section('content') 
-	<div class="row">
-		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-			<div class="panel panel-info">
-				<div class="panel-heading">
-					<h3 class="panel-title">Buat Asuransi Baru</h3>
-				</div>
-				<div class="panel-body">
-					{!! Form::open(['url' => 'home/asuransis', 'method' => 'post']) !!}
-						@include('asuransis.form')
-					{!! Form::close() !!}
-				</div>
-			</div>
-		</div>
-	</div>
+	<h1>{{ $daftar->pasien->nama }}</h1>
+	{!! Form::open(['url' => 'home/nurse_stations', 'method' => 'post']) !!}
+		@include('nurse_stations.form')
+	{!! Form::close() !!}
 @stop
 @section('footer') 
 	<script type="text/javascript" charset="utf-8">
