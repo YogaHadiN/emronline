@@ -103,7 +103,7 @@ class PasienController extends Controller
 		$filename = 'pasien-' . $random_string . '.jpg';
 		if (Storage::disk('local')->has($filename)) {
 			/* return Storage::disk('local')->url($filename); */
-			$img = Image::make(Storage::disk('local')->get	($filename))->resize(800, 300, function($constraint) {
+			$img = Image::make(Storage::disk('local')->get	($filename))->resize(1600, 600, function($constraint) {
 				$constraint->aspectRatio();
 			});
 			$img = $img->stream();
