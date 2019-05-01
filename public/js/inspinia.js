@@ -5,6 +5,10 @@ $(document).ready(function () {
 		interval: false
 	});
 
+	$('.rq').each(function(){
+		$(this).closest('.form-group').find('label').after('<span style="color:#EC4758">*</span>');
+	});
+
 	$("input[type='file']").on('change', function(){
 		readURL(this);
 	});
@@ -192,16 +196,16 @@ function WinMove() {
 };
  function validasi1(selector, pesan) {
 
-    selector.parent()
+    selector.closest('.form-group')
     .find('code')
     .remove();
 
-    selector.parent()
+    selector.closest('.form-group')
     .addClass('has-error')
     .append('<code>' + pesan + '</code>');
 
-    selector.parent()
-    .find('code')
+    selector.closest('.form-group')
+	.find('code')
     .hide()
     .fadeIn(1000);
 

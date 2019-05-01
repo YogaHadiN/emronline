@@ -30,6 +30,10 @@ class ObatTableSeeder extends Seeder
 		$query .= "from mereks as m ";
 		$query .= "left join raks as r on r.id = m.rak_id ";
 		$query .= "left join formulas as f on f.id = r.formula_id ";
+		$query .= "left join komposisis as k on f.id = k.formula_id ";
+		$query .= "where ";
+		$query .= "k.generik_id is not null ";
+		$query .= "group by m.id";
 		$query .= ";";
 
 
@@ -66,14 +70,7 @@ class ObatTableSeeder extends Seeder
 			DB::connection('mysql')->table('obats')->insert([
 					'merek'           => $obat->merek,
 					'formula'         => json_encode($array_komposisi),
-					'kode_rak'        => $obat->kode_rak,
-					'harga_beli'      => $obat->harga_beli,
-					'harga_jual'      => $obat->harga_jual,
-					'exp_date'        => $obat->exp_date,
 					'fornas'          => $obat->fornas,
-					'stok_minimal'    => $obat->stok_minimal,
-					'stok'            => $obat->stok,
-					'dijual_bebas'    => $obat->dijual_bebas,
 					'sediaan'         => $obat->sediaan,
 					'aturan_minum_id' => $obat->aturan_minum_id,
 					'peringatan'      => $obat->peringatan,

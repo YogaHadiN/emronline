@@ -3,11 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Generik;
+use App\Satuan;
 
-class Generik extends Model
+class Satuan extends Model
 {
 	public static function selectList(){
-		return  Generik::pluck('generik', 'id')->all();
+		return  Satuan::pluck('satuan', 'satuan')->all();
 	}
 }

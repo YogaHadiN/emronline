@@ -34,7 +34,11 @@ Online Electronic Medical Record | Pasien
 					</h3>
 				</div>
 				<div class="panel-body">
-					{!! Form::model($pasien,['url' => 'home/pasiens/' . $pasien->id, 'method' => 'put']) !!}
+					{!! Form::model($pasien,[
+						'url'     => 'home/pasiens/' . $pasien->id,
+						'enctype' => 'multipart/form-data',
+						'method'  => 'put'
+					]) !!}
 						@include('pasiens.formEdit')
 					{!! Form::close() !!}
 				</div>

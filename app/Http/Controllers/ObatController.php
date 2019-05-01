@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Obat;
 use Input;
 use App\Yoga;
+use App\Komposisi;
+use App\Generik;
 use DB;
 
 class ObatController extends Controller
@@ -24,12 +26,62 @@ class ObatController extends Controller
 		return view('obats.edit', compact('obat'));
 	}
 	public function store(Request $request){
+		/* return Input::all(); */ 
 		if ($this->valid( Input::all() )) {
 			return $this->valid( Input::all() );
 		}
-		$obat       = new Obat;
-		// Edit disini untuk simpan data
-		$obat->save();
+
+		$generik_id = Input::get('generik');
+		$satuan     = Input::get('satuan');
+		$bobot      = Input::get('bobot');
+
+
+		$formula = [];
+		foreach ($generik_id as $k => $generik) {
+			if ( !empty( $generik ) ) {
+				$formula[] = [
+					'generik_id' => $generik,
+					'generik'    => Generik::find( $generik )->generik,
+					'bobot'      => $bobot[$k] . ' ' . $satuan[$k]
+				];
+			}
+		}
+
+		$formula_json = json_encode($formula);
+
+		$merek = ucfirst(Input::get('merek')) . ' ' .  Input::get('sediaan');
+		if ( count( $formula ) == 1 ) {
+			$merek .= ' ' . $formula[0]['bobot'];
+		}
+
+		DB::beginTransaction();
+		try {
+			
+			$obat                  = new Obat;
+			$obat->merek           = $merek;
+			$obat->formula         = $formula_json;
+			$obat->fornas          = Input::get('fornas');
+			$obat->sediaan         = Input::get('sediaan');
+			$obat->aturan_minum_id = Input::get('aturan_minum_id');
+			$obat->peringatan      = Input::get('peringatan');
+			$obat->tidak_dipuyer   = Input::get('tidak_dipuyer');
+			$obat->verified        = Input::get('verified');
+			$obat->save();
+
+			foreach ($formula as $f) {
+				$komposisi             = new Komposisi;
+				$komposisi->obat_id    = $obat->id;
+				$komposisi->generik_id = $f['generik_id'];
+				$komposisi->bobot      = $f['bobot'];
+				$komposisi->save();
+			}
+
+			DB::commit();
+		} catch (\Exception $e) {
+			DB::rollback();
+			throw $e;
+		}
+
 		$pesan = Yoga::suksesFlash('Obat baru berhasil dibuat');
 		return redirect('home/obats')->withPesan($pesan);
 	}
@@ -37,9 +89,54 @@ class ObatController extends Controller
 		if ($this->valid( Input::all() )) {
 			return $this->valid( Input::all() );
 		}
-		$obat     = Obat::find($id);
-		// Edit disini untuk simpan data
-		$obat->save();
+
+		DB::beginTransaction();
+		try {
+			
+			$generik_id = Input::get('generik');
+			$bobot      = Input::get('bobot');
+
+
+			$formula = [];
+
+			foreach ($generik_id as $k => $generik) {
+				if ( !empty( $generik ) ) {
+					$formula[] = [
+						'generik_id' => $generik,
+						'generik'    => Generik::find( $generik )->generik,
+						'bobot'      => $bobot[$k]
+					];
+				}
+			}
+
+			$formula_json = json_encode($formula);
+			$obat                  = Obat::find($id);
+			$obat->merek           = Input::get('merek');
+			$obat->formula         = $formula_json;
+			$obat->fornas          = Input::get('fornas');
+			$obat->sediaan         = Input::get('sediaan');
+			$obat->aturan_minum_id = Input::get('aturan_minum_id');
+			$obat->peringatan      = Input::get('peringatan');
+			$obat->tidak_dipuyer   = Input::get('tidak_dipuyer');
+			$obat->verified        = Input::get('verified');
+			$obat->save();
+
+			Komposisi::where('obat_id', $id)->delete();
+
+			foreach ($formula as $f) {
+				$komposisi             = new Komposisi;
+				$komposisi->obat_id    = $obat->id;
+				$komposisi->generik_id = $f['generik_id'];
+				$komposisi->bobot      = $f['bobot'];
+				$komposisi->save();
+			}
+
+			DB::commit();
+		} catch (\Exception $e) {
+			DB::rollback();
+			throw $e;
+		}
+
 		$pesan = Yoga::suksesFlash('Obat berhasil diupdate');
 		return redirect('home/obats')->withPesan($pesan);
 	}
@@ -76,7 +173,12 @@ class ObatController extends Controller
 			'required' => ':attribute Harus Diisi',
 		];
 		$rules = [
-			'data'           => 'required',
+			'merek'           => 'required',
+			'fornas'          => 'required',
+			'sediaan'         => 'required',
+			'aturan_minum_id' => 'required',
+			'tidak_dipuyer'   => 'required',
+			'verified'        => 'required'
 		];
 		$validator = \Validator::make($data, $rules, $messages);
 		
@@ -118,10 +220,6 @@ class ObatController extends Controller
 				'text' => $obat
 			];
 		}
-
 		return $data;
-
 	}
-	
-	
 }

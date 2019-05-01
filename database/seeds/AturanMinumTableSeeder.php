@@ -14,6 +14,7 @@ class AturanMinumTableSeeder extends Seeder
 		$aturans = DB::connection('mysql2')->table('aturan_minums')->get();
 		foreach ($aturans as $aturan) {
 			 DB::connection('mysql')->table('aturan_minums')->insert([
+					'id'           => $aturan->id,
 					'aturan_minum' => $aturan->aturan_minum,
 					'created_at'   => date('Y-m-d H:i:s'),
 					'updated_at'   => date('Y-m-d H:i:s')

@@ -34,7 +34,11 @@ Online Electronic Medical Record | Buat Pasien Baru
 					</h3>
 				</div>
 				<div class="panel-body">
-					{!! Form::open(['url' => 'home/pasiens', 'method' => 'post']) !!}
+					{!! Form::open([
+						'url'     => 'home/pasiens',
+						'enctype' => 'multipart/form-data',
+						'method'  => 'post',
+					]) !!}
 					@include('pasiens.formEdit')
 					{!! Form::close() !!}
 				</div>

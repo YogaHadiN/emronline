@@ -7,7 +7,7 @@ use Input;
 use App\Pasien;
 use App\Asuransi;
 use App\Yoga;
-use App\Image;
+use Image;
 use Auth;
 use Response;
 use DB;
@@ -100,11 +100,15 @@ class PasienController extends Controller
 		$pasien->save();
 		$random_string = Input::get('random_string');
 
-
 		$filename = 'pasien-' . $random_string . '.jpg';
 		if (Storage::disk('local')->has($filename)) {
+			/* return Storage::disk('local')->url($filename); */
+			$img = Image::make(Storage::disk('local')->get	($filename))->resize(800, 300, function($constraint) {
+				$constraint->aspectRatio();
+			});
+			$img = $img->stream();
 			$filenametostore = 'pasiens/pasien' . $pasien->id .'.jpg';
-			Storage::disk('s3')->put( $filenametostore,  Storage::disk('local')->get($filename), 'public' );
+			Storage::disk('s3')->put( $filenametostore,  $img, 'public' );
 			$pasien->image                   = $filenametostore;
 			$pasien->save();
 		}

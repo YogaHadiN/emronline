@@ -29,6 +29,8 @@ class DatabaseSeeder extends Seeder
 		$this->call(IcdTableSeeder::class);
 		$this->call(DiagnosaTableSeeder::class);
 		$this->call(SignaTableSeeder::class);
+		$this->call(SediaanTableSeeder::class);
+		$this->call(SatuanTableSeeder::class);
 		/* $this->call(PeriksaTableSeeder::class); */
     }
 }
