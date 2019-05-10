@@ -71,15 +71,12 @@ Online Electronic Medical Record | Pemeriksaan {{ ucfirst( $nurse_station->poli-
 		function tarifSelectChange(control){
 			var selectVal = $(control).val();
 			console.log(selectVal);
-			var $button = $(control).closest('tr').find('button');
 			if( !selectVal ){
-				if( !$button.hasClass('disabled') ){
-					$button.addClass('disabled');
+				if( !$(control).closest('tr').find('.btn-primary').hasClass('disabled') ){
+					$(control).closest('tr').find('.btn-primary').addClass('disabled');
 				}
 			} else {
-				if( $button.hasClass('disabled') ){
-					$button.removeClass('disabled');
-				}
+				$(control).closest('tr').find('.disabled').removeClass('disabled');
 			}
 		}
 	</script>
