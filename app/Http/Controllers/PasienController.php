@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Input;
 use App\Pasien;
 use App\Asuransi;
+use App\Events\photoDetected;
 use App\Yoga;
 use Image;
 use Auth;
@@ -101,14 +102,9 @@ class PasienController extends Controller
 		$random_string = Input::get('random_string');
 
 		$filename = 'pasien-' . $random_string . '.jpg';
+		$filenametostore = 'pasiens/pasien' . $pasien->id .'.jpg';
 		if (Storage::disk('local')->has($filename)) {
-			/* return Storage::disk('local')->url($filename); */
-			$img = Image::make(Storage::disk('local')->get	($filename))->resize(1600, 600, function($constraint) {
-				$constraint->aspectRatio();
-			});
-			$img = $img->stream();
-			$filenametostore = 'pasiens/pasien' . $pasien->id .'.jpg';
-			Storage::disk('s3')->put( $filenametostore,  $img, 'public' );
+			$this->storeImage($filename, $filenametostore);
 			$pasien->image                   = $filenametostore;
 			$pasien->save();
 		}
@@ -116,14 +112,14 @@ class PasienController extends Controller
 		$filename = 'ktp-' . $random_string . '.jpg';
 		if (Storage::disk('local')->has($filename)) {
 			$filenametostore = 'pasiens/ktp' . $pasien->id .'.jpg';
-			Storage::disk('s3')->put( $filenametostore,  Storage::disk('local')->get($filename), 'public' );
+			$this->storeImage($filename, $filenametostore);
 			$pasien->ktp_image                   = $filenametostore;
 			$pasien->save();
 		}
 		$filename = 'bpjs-' . $random_string . '.jpg';
 		if (Storage::disk('local')->has($filename)) {
 			$filenametostore = 'pasiens/bpjs' . $pasien->id .'.jpg';
-			Storage::disk('s3')->put( $filenametostore,  Storage::disk('local')->get($filename), 'public' );
+			$this->storeImage($filename, $filenametostore);
 			$pasien->bpjs_image                   = $filenametostore;
 			$pasien->save();
 		}
@@ -391,5 +387,15 @@ class PasienController extends Controller
 			}
 		}
 		return $array;
+	}
+	private function storeImage($filename, $filenametostore){
+		$img = Image::make(Storage::disk('local')->get	($filename))->resize(800, 400, function($constraint) {
+			$constraint->aspectRatio();
+		});
+		$img = $img->stream();
+		Storage::disk('s3')->put( $filenametostore,  $img, 'public' );
+	}
+	public function photoTerdeteksi(){
+		event(new photoDetected() );
 	}
 }

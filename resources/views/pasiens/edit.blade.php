@@ -2,6 +2,7 @@
 
 @section('head') 
 	<link href="{!! asset('css/poli.css') !!}" rel="stylesheet">
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 @stop
 
 @section('title') 
@@ -96,6 +97,7 @@ Online Electronic Medical Record | Pasien
 	</script>
 
 {!! HTML::script('js/pasien_edit.js')!!}
+{!! HTML::script('js/app.js')!!}
  
 @stop
 

@@ -17,6 +17,7 @@
 Auth::routes(['verify' => true]);
 Route::get('/', 'HomeController@index');
 Route::group(['middleware' => ['verified']], function () {
+	Route::get('home/pasiens/photo_terdeteksi', 'PasienController@photoTerdeteksi');
 	Route::resource('home/asuransis', 'AsuransiController');
 	Route::resource('home/pasiens', 'PasienController');
 	Route::resource('home/users', 'UserController');
@@ -24,6 +25,7 @@ Route::group(['middleware' => ['verified']], function () {
 	Route::resource('home/generiks', 'GenerikController');
 	Route::resource('home/obats', 'ObatController');
 	Route::resource('home/coas', 'CoaController');
+	Route::get('home/transaksi_periksa/{id}/create', 'PeriksaController@transaksiPeriksa');
 	Route::get('home/nursestation/{id}/create', 'NurseStationController@create');
 	Route::resource('home/nurse_stations', 'NurseStationController');
 	Route::resource('home/kelompok_coas', 'KelompokCoaController');
@@ -31,8 +33,6 @@ Route::group(['middleware' => ['verified']], function () {
 	Route::get('home/terapis/jenis_obat_puyer', 'ObatController@jenisObatPuyer');
 	Route::get('home/terapis/jenis_obat_standar', 'ObatController@jenisObatStandar');
 	Route::get('home/terapis/jenis_obat_add', 'ObatController@jenisObatAdd');
-
-
 	Route::resource('home/polis', 'PoliController');
 	Route::resource('home/jenis_tarifs', 'JenisTarifController');
 	Route::resource('home/icds', 'IcdController');

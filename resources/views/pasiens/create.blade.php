@@ -2,6 +2,7 @@
 
 @section('head') 
 	<link href="{!! asset('css/poli.css') !!}" rel="stylesheet">
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 @stop
 
 @section('title') 
@@ -49,11 +50,15 @@ Online Electronic Medical Record | Buat Pasien Baru
 	</div>
 	@include('pasiens.image_template')
 	@include('images.barcode')
+	<div id="app">
+		Event Listener
+	</div>
 @stop
 @section('footer') 
 	<script type="text/javascript" charset="utf-8">
 		var random_string = "{{ $random_string }}";
 	</script>
 {!! HTML::script('js/pasien_edit.js')!!}
+{!! HTML::script('js/app.js')!!}
 @stop
 

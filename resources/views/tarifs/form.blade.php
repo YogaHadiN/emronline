@@ -45,8 +45,7 @@
 		<div class="form-group @if($errors->has('staf_id'))has-error @endif">
 		  {!! Form::label('staf_id', 'Pemeriksa', ['class' => 'control-label']) !!}
 			{!! Form::select('staf_id', $staf, null, array(
-				'class'         => 'form-control rq selectpick',
-				'data-live-search'         => 'true'
+				'class'         => 'form-control rq'
 			))!!}
 		  @if($errors->has('staf_id'))<code>{{ $errors->first('staf_id') }}</code>@endif
 		</div>

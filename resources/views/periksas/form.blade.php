@@ -179,18 +179,20 @@
 		  			<tr>
 		  				<th>Tindakan</th>
 		  				<th>Keterangan</th>
+		  				<th>Action</th>
 		  			</tr>
 		  		</thead>
-		  		<tbody>
-					@if( isset($periksa) )
-						@include('periksas.tableTransaksi', ['transaksi' => $periksa->transaksiPeriksa])
+		  		<tbody id="tindakan_table">
+					@if( $tindakans->count() )
+						@foreach($tindakans as $k => $tindakan)	
+							@include('periksas.tindakan', ['k' => $k])
+						@endforeach
 					@else
-						@include('periksas.tableTransaksi', ['transaksi' => $nurse_station->transaksi])
+						@include('periksas.tindakan')
 					@endif
 		  		</tbody>
 		  	</table>
 		  </div>
-		  
 		  @if($errors->has('pemeriksaan_penunjang'))<code>{{ $errors->first('pemeriksaan_penunjang') }}</code>@endif
 		</div>
 	</div>

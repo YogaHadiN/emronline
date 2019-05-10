@@ -108,6 +108,7 @@
                             <li>{!! HTML::link('home/users', 'User')!!}</li>
                             <li>{!! HTML::link('home/pasiens', 'Pasien')!!}</li>
                             <li>{!! HTML::link('home/asuransis', 'Asuransi')!!}</li>
+                            <li>{!! HTML::link('home/tarifs', 'Tarif')!!}</li>
                             <li>{!! HTML::link('home/stafs', 'Staf')!!}</li>
                             <li>{!! HTML::link('home/polis', 'Poli')!!}</li>
                         </ul>

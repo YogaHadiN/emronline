@@ -28,7 +28,6 @@ class TarifTableSeedeer extends Seeder
 					'asuransi_id'      => '1',
 					'user_id'          => '1',
 					'jasa_dokter'      => $tarif->jasa_dokter,
-					'tipe_tindakan_id' => $tarif->tipe_tindakan_id,
 					'bhp_items'        => $tarif->bhp_items,
 					'created_at'   => date('Y-m-d H:i:s'),
 					'updated_at'   => date('Y-m-d H:i:s')

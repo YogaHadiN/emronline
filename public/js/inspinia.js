@@ -21,7 +21,6 @@ $(document).ready(function () {
       });
    })   
     // MetsiMenu
-    $('#side-menu').metisMenu();
 
     $('.modal').on('hidden.bs.modal', function(){
         $('.btn').removeAttr('disabled');
@@ -531,3 +530,6 @@ function ganti_gambar_jika_rusak(){
 		}); 
 	}); 
 }
+$('#side-menu').metisMenu({
+	toggle:false
+});

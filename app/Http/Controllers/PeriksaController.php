@@ -24,8 +24,10 @@ class PeriksaController extends Controller
 		if ( !is_null($nurse_station->random_string) ) {
 			return redirect('home/periksas/' . $nurse_station->periksa_id . '/edit');
 		}
+		$tindakans = TransaksiPeriksa::where('nurse_station_id', $id)->get();
 		return view('periksas.create', compact(
-			'nurse_station'
+			'nurse_station',
+			'tindakans'
 		));
 	}
 	public function edit($id){
@@ -91,6 +93,15 @@ class PeriksaController extends Controller
 		$pesan = Yoga::suksesFlash('Periksa berhasil diupdate');
 		return redirect('home/periksas')->withPesan($pesan);
 	}
+	public function transaksiPeriksa($id){
+		$nurse_station = NurseStation::find( $id );
+		$tarif = Tarif::where('user_id', Auth::id())->get()->get();
+		return view('transaksi_periksas.create', compact(
+			'tarif',
+			'nurse_station'
+		));
+	}
+	
 	public function destroy($id){
 		Periksa::destroy($id);
 		$pesan = Yoga::suksesFlash('Periksa berhasil dihapus');

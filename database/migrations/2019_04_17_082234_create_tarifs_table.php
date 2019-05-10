@@ -17,9 +17,8 @@ class CreateTarifsTable extends Migration
             $table->bigIncrements('id');
 			$table->string('jenis_tarif_id');
 			$table->integer('biaya');
+			$table->integer('jasa_dokter');
 			$table->string('asuransi_id');
-			$table->string('jasa_dokter');
-			$table->string('tipe_tindakan_id');
 			$table->string('user_id');
 			$table->longtext('bhp_items')->default('[]');
             $table->timestamps();

@@ -5,7 +5,7 @@ Online Electronic Medical Record | Tarif
 
 @stop
 @section('page-title') 
-<h2></h2>
+<h2>Nurse Station</h2>
 <ol class="breadcrumb">
 	  <li>
 		  <a href="{{ url('home')}}">Home</a>
@@ -17,62 +17,41 @@ Online Electronic Medical Record | Tarif
 
 @stop
 @section('content') 
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h3 class="panel-title">
-				<div class="panelLeft">Tarif</div>
-				<div class="panelRight">
-					<a class="btn btn-primary" href="{{ url('home/tarifs/create') }}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Buat Tarif Baru</a>
-				</div>
-			</h3>
-		</div>
-		<div class="panel-body">
 			<div class="table-responsive">
 				<table class="table table-hover table-condensed table-bordered">
 					<thead>
 						<tr>
-							<th>ID</th>
-							<th>Tarif</th>
-							<th></th>
-							<th>No Telp</th>
+							<th>Nama Tindakan</th>
+							<th>Biaya</th>
+							<th>Jasa Dokter</th>
+							<th>Bahan Habis Pakai</th>
 							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
 						@if($tarifs->count() > 0)
-							@foreach($tarifs as $asuransi)
+							@foreach($tarifs as $tarif)
 								<tr>
-									<td>{{ $asuransi->id }}</td>
-									<td>{{ $asuransi->nama_asuransi }}</td>
-									<td>{{ $asuransi->no_telp }}</td>
-									<td>{{ $asuransi->alamat }}</td>
+									<td>{{ $tarif->jenisTarif->jenis_tarif }}</td>
+									<td>{{ $tarif->biaya }}</td>
+									<td>{{ $tarif->jasa_dokter }}</td>
+									<td>{{ $tarif->bahanHabisPakai }}</td>
 									<td nowrap class="autofit">
-										{!! Form::open(['url' => 'home/tarifs/' . $asuransi->id, 'method' => 'delete']) !!}
-											<a class="btn btn-warning btn-sm" href="{{ url('home/tarifs/' . $asuransi->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>
-											<button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus {{ $asuransi->id }} - {{ $asuransi->nama_asuransi }} ?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
+										{!! Form::open(['url' => 'home/tarifs/' . $tarif->id, 'method' => 'delete']) !!}
+											<a class="btn btn-warning btn-sm" href="{{ url('home/tarifs/' . $tarif->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+											<button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus {{ $tarif->jenisTarif->jenis_tarif }}  tarif ?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
 										{!! Form::close() !!}
 									</td>
 								</tr>
 							@endforeach
 						@else
 							<tr>
-								<td colspan="">
-									{!! Form::open(['url' => 'home/tarifs/imports', 'method' => 'post', 'files' => 'true']) !!}
-										<div class="form-group">
-											{!! Form::label('file', 'Data tidak ditemukan, upload data?') !!}
-											{!! Form::file('file') !!}
-											{!! Form::submit('Upload', ['class' => 'btn btn-primary', 'id' => 'submit']) !!}
-										</div>
-									{!! Form::close() !!}
-								</td>
+								<td colspan="6" class="text-center">Tidak ada data ditemukan</td>
 							</tr>
 						@endif
 					</tbody>
 				</table>
 			</div>
-		</div>
-	</div>
-	
 @stop
 @section('footer') 
 	
